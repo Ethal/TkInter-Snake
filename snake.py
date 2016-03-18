@@ -10,11 +10,13 @@ class Application:
     TITLE = 'Snake'
     SIZE = 300, 300
 
+    # initialize parameters of this class && parameters of Tk() class
     def __init__(self, master):
         self.master = master
 
         self.head = None
         self.head_position = None
+        # segment : Snake body
         self.segments = []
         self.segment_positions = []
         self.food = None
@@ -23,6 +25,7 @@ class Application:
         self.moved = True
 
         self.running = False
+        # below : initialize the specific parameter of Tk() class
         self.init()
 
     def init(self):
@@ -68,6 +71,7 @@ class Application:
         head_position = [round(width // 2, -1), round(height // 2, -1)]
         self.head = self.canvas.create_text(tuple(head_position), text=HEAD_CHARACTER)
         self.head_position = head_position
+
         self.spawn_food()
         self.tick()
 
