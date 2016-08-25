@@ -14,7 +14,8 @@ FOOD_COLOR = ('yellow','yellow')
 
 class Application:
     TITLE = 'Snake'
-    SIZE = 300, 300
+    SIZE = 400, 400
+    BORDER = 10
     MOVE = 10
     SNAKE_SIZE = 7
 
@@ -77,7 +78,7 @@ class Application:
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
 
-        self.canvas.create_rectangle(10, 10, width-10, height-10)
+        self.canvas.create_rectangle(self.BORDER, self.BORDER, width-self.BORDER, height-self.BORDER)
         self.direction = random.choice('wasd')
         
         x = round(width // 2, -1)
@@ -126,8 +127,8 @@ class Application:
             self.head_position[2] += self.MOVE
 
         head_position = tuple(self.head_position)
-        if (self.head_position[0] < 10 or self.head_position[0] >= width-10 or
-            self.head_position[1] < 10 or self.head_position[1] >= height-10 or
+        if (self.head_position[0] < self.BORDER or self.head_position[0] >= width-self.BORDER or
+            self.head_position[1] < self.BORDER or self.head_position[1] >= height-self.BORDER or
             any(segment_position == head_position for segment_position in self.segment_positions)):
             self.game_over()
             return
