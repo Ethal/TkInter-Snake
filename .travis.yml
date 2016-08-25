@@ -5,3 +5,12 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+install:
+  - pip install pylint coverage
+  - pip install -e .
+script:
+  - nosetests -s -q
+sudo: false
+after_success:
+  - pylint snake -d line-too-long
+  - nosetests -s -q --with-coverage --cover-package=snake
