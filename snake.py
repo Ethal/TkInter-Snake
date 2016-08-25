@@ -1,6 +1,13 @@
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+
 import random
 import string
-import tkinter
+
+try:
+    import tkinter
+except ImportError:
+    import Tkinter as tkinter
 
 HEAD_CHARACTER = 'ö'
 FOOD_CHARACTERS = string.ascii_letters
@@ -58,8 +65,10 @@ class Application:
             self.start()
 
     def reset(self):
-        self.segments.clear()
-        self.segment_positions.clear()
+        #self.segments.clear() # Not work with python 2.7
+        self.segments = [] # to be check on python 3.x
+        #self.segment_positions.clear() # Not work with python 2.7
+        self.segment_positions = [] # to be check on python 3.x
         self.canvas.delete(tkinter.ALL)
 
     def start(self):
