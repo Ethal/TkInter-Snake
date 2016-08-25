@@ -44,10 +44,11 @@ class Application:
         self.start_button = tkinter.Button(self.master, text='Start', command=self.on_start)
         self.start_button.grid(sticky=tkinter.EW)
 
-        self.master.bind('w', self.on_up)
-        self.master.bind('a', self.on_left)
-        self.master.bind('s', self.on_down)
-        self.master.bind('d', self.on_right)
+        self.master.bind('<Up>', self.on_up) #w
+        self.master.bind('<Left>', self.on_left) #a
+        self.master.bind('<Down>', self.on_down) #s
+        self.master.bind('<Right>', self.on_right) #d
+        self.master.bind('p', self.on_pause) #pause
 
         self.master.columnconfigure(0, weight=1)
         self.master.rowconfigure(0, weight=1)
@@ -133,10 +134,9 @@ class Application:
                 previous_position = position
 
         self.canvas.coords(self.head, head_position)
-        self.moved = True
 
-        if self.running:
-            self.canvas.after(50, self.tick)
+        if self.running and self.moved:
+            self.canvas.after(150, self.tick)
 
     def game_over(self):
         width = self.canvas.winfo_width()
@@ -150,22 +150,26 @@ class Application:
     def on_up(self, event):
         if self.moved and not self.direction == 's':
             self.direction = 'w'
-            self.moved = False
 
     def on_down(self, event):
         if self.moved and not self.direction == 'w':
             self.direction = 's'
-            self.moved = False
 
     def on_left(self, event):
         if self.moved and not self.direction == 'd':
             self.direction = 'a'
-            self.moved = False
 
     def on_right(self, event):
         if self.moved and not self.direction == 'a':
             self.direction = 'd'
+
+    def on_pause(self, event):
+        if self.moved:
             self.moved = False
+        else:
+            self.moved = True
+            self.tick()
+
 
 
 def main():
