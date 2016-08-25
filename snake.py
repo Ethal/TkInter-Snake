@@ -182,8 +182,6 @@ class Application:
         self.running = False
         self.start_button.configure(text='Start')
         score = len(self.segments) * 10
-        print score
-        print self.highscore
         if score >= self.highscore:
             self.canvas.create_text((round(width // 2, -1), round(height // 2, -1)), text='Game Over! Great, You have the High score : %d' % score)
         else:
