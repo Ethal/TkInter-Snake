@@ -9,13 +9,14 @@ try:
 except ImportError:
     import Tkinter as tkinter
 
-HEAD_CHARACTER = 'ö'
-FOOD_CHARACTERS = string.ascii_letters
+FOOD_COLOR = ('yellow','yellow')
 
 
 class Application:
     TITLE = 'Snake'
     SIZE = 300, 300
+    MOVE = 10
+    SNAKE_SIZE = 7
 
     # initialize parameters of this class && parameters of Tk() class
     def __init__(self, master):
@@ -78,8 +79,12 @@ class Application:
 
         self.canvas.create_rectangle(10, 10, width-10, height-10)
         self.direction = random.choice('wasd')
-        head_position = [round(width // 2, -1), round(height // 2, -1)]
-        self.head = self.canvas.create_text(tuple(head_position), text=HEAD_CHARACTER)
+        
+        x = round(width // 2, -1)
+        y = round(height // 2, -1)
+
+        head_position = [x,y,x+self.SNAKE_SIZE,y+self.SNAKE_SIZE]
+        self.head = self.canvas.create_oval(tuple(head_position), fill='green')
         self.head_position = head_position
 
         self.spawn_food()
@@ -90,14 +95,17 @@ class Application:
         height = self.canvas.winfo_height()
         positions = [tuple(self.head_position), self.food_position] + self.segment_positions
 
-        position = (round(random.randint(20, width-20), -1), round(random.randint(20, height-20), -1))
+        x = round(random.randint(20, width-20), -1)
+        y = round(random.randint(20, height-20), -1)
+        position = (x, y,x+self.SNAKE_SIZE,y+self.SNAKE_SIZE)
         while position in positions:
+            x = round(random.randint(20, width-20), -1)
+            y = round(random.randint(20, height-20), -1)
             position = (round(random.randint(20, width-20), -1), round(random.randint(20, height-20), -1))
 
-        character = random.choice(FOOD_CHARACTERS)
-        self.food = self.canvas.create_text(position, text=character)
+        color = random.choice(FOOD_COLOR)
+        self.food = self.canvas.create_rectangle(tuple(position),fill=color)
         self.food_position = position
-        self.food_character = character
 
     def tick(self):
         width = self.canvas.winfo_width()
@@ -105,13 +113,17 @@ class Application:
         previous_head_position = tuple(self.head_position)
 
         if self.direction == 'w':
-            self.head_position[1] -= 10
+            self.head_position[1] -= self.MOVE
+            self.head_position[3] -= self.MOVE
         elif self.direction == 'a':
-            self.head_position[0] -= 10
+            self.head_position[0] -= self.MOVE
+            self.head_position[2] -= self.MOVE
         elif self.direction == 's':
-            self.head_position[1] += 10
+            self.head_position[1] += self.MOVE
+            self.head_position[3] += self.MOVE
         elif self.direction == 'd':
-            self.head_position[0] += 10
+            self.head_position[0] += self.MOVE
+            self.head_position[2] += self.MOVE
 
         head_position = tuple(self.head_position)
         if (self.head_position[0] < 10 or self.head_position[0] >= width-10 or
