@@ -9,6 +9,8 @@ try:
 except ImportError:
     import Tkinter as tkinter
 
+import os.path
+
 FOOD_COLOR = ('yellow','yellow')
 
 
@@ -32,6 +34,9 @@ class Application:
         self.food_position = None
         self.direction = None
         self.moved = True
+        # scores
+        self.scores = tkinter.StringVar()
+        self.highscore = 0
 
         self.running = False
         # below : initialize the specific parameter of Tk() class
@@ -44,7 +49,14 @@ class Application:
         self.canvas.grid(sticky=tkinter.NSEW)
 
         self.start_button = tkinter.Button(self.master, text='Start', command=self.on_start)
-        self.start_button.grid(sticky=tkinter.EW)
+        self.start_button.grid(row = 1,sticky=tkinter.EW)
+        
+        # scores
+        self.high_scores()
+        self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10,self.highscore)))
+        self.score_label= tkinter.Label(self.master, textvariable=self.scores)
+        self.score_label.grid(row = 2,sticky=tkinter.EW)
+
 
         self.master.bind('<Up>', self.on_up) #w
         self.master.bind('<Left>', self.on_left) #a
@@ -81,6 +93,10 @@ class Application:
         self.canvas.create_rectangle(self.BORDER, self.BORDER, width-self.BORDER, height-self.BORDER)
         self.direction = random.choice('wasd')
         
+        # scores
+        self.high_scores()
+        self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10,self.highscore)))
+
         x = round(width // 2, -1)
         y = round(height // 2, -1)
 
@@ -149,16 +165,45 @@ class Application:
         self.canvas.coords(self.head, head_position)
 
         if self.running and self.moved:
+            # scores
+            if (len(self.segments)*10) > self.highscore:
+                self.highscore = len(self.segments)*10
+            self.scores.set(('Score: %d High Score: %d'% (len(self.segments)*10,self.highscore)))
+            
             self.canvas.after(150, self.tick)
 
     def game_over(self):
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
+        
+        # scores
+        self.high_scores()
 
         self.running = False
         self.start_button.configure(text='Start')
         score = len(self.segments) * 10
-        self.canvas.create_text((round(width // 2, -1), round(height // 2, -1)), text='Game Over! Your score was: %d' % score)
+        print score
+        print self.highscore
+        if score >= self.highscore:
+            self.canvas.create_text((round(width // 2, -1), round(height // 2, -1)), text='Game Over! Great, You have the High score : %d' % score)
+        else:
+            self.canvas.create_text((round(width // 2, -1), round(height // 2, -1)), text='Game Over! Your score is: %d' % score)
+
+    def high_scores(self):
+        filename = 'score.txt'
+        if os.path.isfile(filename):
+            file = open(filename, 'r')
+            score = file.read()
+            if len(score) != 0:
+                self.highscore = int(score)
+            file.close()
+    
+        if (len(self.segments)*10) >= self.highscore:
+            file = open(filename, 'w')
+            str = ('%d' % (len(self.segments)*10))
+            file.write(str)
+            file.close()
+
 
     def on_up(self, event):
         if self.moved and not self.direction == 's':
