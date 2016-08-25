@@ -1,9 +1,5 @@
 TkInter Snake
 =============
 
-A really simple snake clone using Python 3 and TkInter. Controls are WASD.
+A really simple snake clone using Python 3 / 2.7 and TkInter. Controls are arrow keys.
 
-Screenshots
------------
-
-![](http://i.imgur.com/2DBNXdc.gif)
