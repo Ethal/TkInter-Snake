@@ -12,4 +12,4 @@ script:
 sudo: false
 after_success:
   - pylint snake -d line-too-long
-  - nosetests -s -q --with-coverage --cover-package=snake
+
