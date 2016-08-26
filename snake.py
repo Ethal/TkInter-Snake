@@ -22,6 +22,9 @@ class Application:
     BORDER = 10
     MOVE = 10
     SNAKE_SIZE = 7
+    SPEED_STEP = 5
+    SPEED_DEC = 1
+
 
     # initialize parameters of this class && parameters of Tk() class
     def __init__(self, master):
@@ -40,6 +43,10 @@ class Application:
         # scores
         self.scores = tkinter.StringVar()
         self.highscore = 0
+
+        self.infos = tkinter.StringVar()
+        self.speed = 150
+        self.speed_flag = False
 
         self.running = False
         # below : initialize the specific parameter of Tk() class
@@ -60,6 +67,10 @@ class Application:
         self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10, self.highscore)))
         self.score_label = tkinter.Label(self.master, textvariable=self.scores)
         self.score_label.grid(row=2, sticky=tkinter.EW)
+
+        self.infos.set('Speed: %d' % (self.speed))
+        self.infos_label = tkinter.Label(self.master, textvariable=self.infos)
+        self.infos_label.grid(row=3, sticky=tkinter.EW)
 
         self.master.bind('<Up>', self.on_up) #w
         self.master.bind('<Left>', self.on_left) #a
@@ -100,6 +111,9 @@ class Application:
         # scores
         self.high_scores()
         self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10, self.highscore)))
+
+        self.speed = 150
+        self.speed_flag = False
 
         pos_x = round(width // 2, -1)
         pos_y = round(height // 2, -1)
@@ -171,12 +185,19 @@ class Application:
         self.canvas.coords(self.head, head_position)
 
         if self.running and self.moved:
+            #speed
+            if len(self.segments) % self.SPEED_STEP == 0 and self.speed_flag and self.speed > 50:
+                self.speed -= self.SPEED_DEC
+                self.speed_flag=False
+            if len(self.segments) % self.SPEED_STEP > 0 and not self.speed_flag:
+                self.speed_flag=True
             # scores
             if (len(self.segments)*10) > self.highscore:
                 self.highscore = len(self.segments)*10
 
+            self.infos.set(('Speed: %d'% (self.speed)))
             self.scores.set(('Score: %d High Score: %d'% (len(self.segments)*10, self.highscore)))
-            self.canvas.after(150, self.tick)
+            self.canvas.after(self.speed, self.tick)
 
     def game_over(self):
         """ Game over."""
