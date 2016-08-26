@@ -52,13 +52,12 @@ class Application:
 
         self.start_button = tkinter.Button(self.master, text='Start', command=self.on_start)
         self.start_button.grid(row=1, sticky=tkinter.EW)
-        
+
         # scores
         self.high_scores()
         self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10, self.highscore)))
         self.score_label = tkinter.Label(self.master, textvariable=self.scores)
         self.score_label.grid(row=2, sticky=tkinter.EW)
-
 
         self.master.bind('<Up>', self.on_up) #w
         self.master.bind('<Left>', self.on_left) #a
@@ -95,7 +94,7 @@ class Application:
 
         self.canvas.create_rectangle(self.BORDER, self.BORDER, width-self.BORDER, height-self.BORDER)
         self.direction = random.choice('wasd')
-        
+
         # scores
         self.high_scores()
         self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10, self.highscore)))
@@ -173,15 +172,15 @@ class Application:
             # scores
             if (len(self.segments)*10) > self.highscore:
                 self.highscore = len(self.segments)*10
+
             self.scores.set(('Score: %d High Score: %d'% (len(self.segments)*10, self.highscore)))
-            
             self.canvas.after(150, self.tick)
 
     def game_over(self):
         """ Game over."""
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
-        
+
         # scores
         self.high_scores()
 
@@ -202,7 +201,7 @@ class Application:
             if len(score) != 0:
                 self.highscore = int(score)
             ofile.close()
-    
+
         if (len(self.segments)*10) >= self.highscore:
             wfile = open(filename, 'w')
             score = ('%d' % (len(self.segments)*10))
