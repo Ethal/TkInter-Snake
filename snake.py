@@ -14,6 +14,7 @@ FOOD_COLOR = ('yellow', 'yellow')
 
 
 class Application:
+    """ Application. """
     TITLE = 'Snake'
     SIZE = 400, 400
     BORDER = 10
@@ -22,6 +23,7 @@ class Application:
 
     # initialize parameters of this class && parameters of Tk() class
     def __init__(self, master):
+        """ Init. """
         self.master = master
 
         self.head = None
@@ -42,6 +44,7 @@ class Application:
         self.init()
 
     def init(self):
+        """ Init the game.""""
         self.master.title(self.TITLE)
 
         self.canvas = tkinter.Canvas(self.master)
@@ -69,6 +72,7 @@ class Application:
         self.master.geometry('%dx%d' % self.SIZE)
 
     def on_start(self):
+        """ Start Button Pressed."""
         self.reset()
         if self.running:
             self.running = False
@@ -79,11 +83,13 @@ class Application:
             self.start()
 
     def reset(self):
+        """ reset the game """
         self.segments = []
         self.segment_positions = []
         self.canvas.delete(tkinter.ALL)
 
     def start(self):
+        """ Start game. """
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
 
@@ -105,6 +111,7 @@ class Application:
         self.tick()
 
     def spawn_food(self):
+        """Draw the food."""
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
         positions = [tuple(self.head_position), self.food_position] + self.segment_positions
@@ -122,6 +129,7 @@ class Application:
         self.food_position = position
 
     def tick(self):
+        """Draw the snake."""
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
         previous_head_position = tuple(self.head_position)
@@ -170,6 +178,7 @@ class Application:
             self.canvas.after(150, self.tick)
 
     def game_over(self):
+        """ Game over."""
         width = self.canvas.winfo_width()
         height = self.canvas.winfo_height()
         
@@ -196,8 +205,8 @@ class Application:
     
         if (len(self.segments)*10) >= self.highscore:
             wfile = open(filename, 'w')
-            str = ('%d' % (len(self.segments)*10))
-            wfile.write(str)
+            score = ('%d' % (len(self.segments)*10))
+            wfile.write(score)
             wfile.close()
 
     def on_up(self, event):
@@ -231,6 +240,7 @@ class Application:
 
 
 def main():
+    """ start application."""
     root = tkinter.Tk()
     Application(root)
     root.mainloop()
