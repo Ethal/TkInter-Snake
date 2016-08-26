@@ -2,7 +2,6 @@
 # -*- encoding: utf-8 -*-
 
 import random
-import string
 
 try:
     import tkinter
@@ -11,7 +10,7 @@ except ImportError:
 
 import os.path
 
-FOOD_COLOR = ('yellow','yellow')
+FOOD_COLOR = ('yellow', 'yellow')
 
 
 class Application:
@@ -49,13 +48,13 @@ class Application:
         self.canvas.grid(sticky=tkinter.NSEW)
 
         self.start_button = tkinter.Button(self.master, text='Start', command=self.on_start)
-        self.start_button.grid(row = 1,sticky=tkinter.EW)
+        self.start_button.grid(row = 1, sticky=tkinter.EW)
         
         # scores
         self.high_scores()
-        self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10,self.highscore)))
-        self.score_label= tkinter.Label(self.master, textvariable=self.scores)
-        self.score_label.grid(row = 2,sticky=tkinter.EW)
+        self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10, self.highscore)))
+        self.score_label = tkinter.Label(self.master, textvariable=self.scores)
+        self.score_label.grid(row = 2, sticky=tkinter.EW)
 
 
         self.master.bind('<Up>', self.on_up) #w
@@ -80,10 +79,8 @@ class Application:
             self.start()
 
     def reset(self):
-        #self.segments.clear() # Not work with python 2.7
-        self.segments = [] # to be check on python 3.x
-        #self.segment_positions.clear() # Not work with python 2.7
-        self.segment_positions = [] # to be check on python 3.x
+        self.segments = []
+        self.segment_positions = []
         self.canvas.delete(tkinter.ALL)
 
     def start(self):
@@ -95,12 +92,12 @@ class Application:
         
         # scores
         self.high_scores()
-        self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10,self.highscore)))
+        self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10, self.highscore)))
 
-        x = round(width // 2, -1)
-        y = round(height // 2, -1)
+        pos_x = round(width // 2, -1)
+        pos_y = round(height // 2, -1)
 
-        head_position = [x,y,x+self.SNAKE_SIZE,y+self.SNAKE_SIZE]
+        head_position = [pos_x, pos_y, pos_x+self.SNAKE_SIZE, pos_y+self.SNAKE_SIZE]
         self.head = self.canvas.create_oval(tuple(head_position), fill='green')
         self.head_position = head_position
 
@@ -112,16 +109,16 @@ class Application:
         height = self.canvas.winfo_height()
         positions = [tuple(self.head_position), self.food_position] + self.segment_positions
 
-        x = round(random.randint(20, width-20), -1)
-        y = round(random.randint(20, height-20), -1)
-        position = (x, y,x+self.SNAKE_SIZE,y+self.SNAKE_SIZE)
+        pos_x = round(random.randint(20, width-20), -1)
+        pos_y = round(random.randint(20, height-20), -1)
+        position = (pos_x, pos_y, x+self.SNAKE_SIZE, pos_y+self.SNAKE_SIZE)
         while position in positions:
-            x = round(random.randint(20, width-20), -1)
-            y = round(random.randint(20, height-20), -1)
+            pos_x = round(random.randint(20, width-20), -1)
+            pos_y = round(random.randint(20, height-20), -1)
             position = (round(random.randint(20, width-20), -1), round(random.randint(20, height-20), -1))
 
         color = random.choice(FOOD_COLOR)
-        self.food = self.canvas.create_rectangle(tuple(position),fill=color)
+        self.food = self.canvas.create_rectangle(tuple(position), fill=color)
         self.food_position = position
 
     def tick(self):
