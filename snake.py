@@ -13,7 +13,7 @@ import os.path
 FOOD_COLOR = ('yellow', 'yellow')
 
 
-class Application:
+class Application(object):
     """ Application. """
     #pylint: disable=too-many-instance-attributes
 
@@ -188,9 +188,9 @@ class Application:
             #speed
             if len(self.segments) % self.SPEED_STEP == 0 and self.speed_flag and self.speed > 50:
                 self.speed -= self.SPEED_DEC
-                self.speed_flag=False
+                self.speed_flag = False
             if len(self.segments) % self.SPEED_STEP > 0 and not self.speed_flag:
-                self.speed_flag=True
+                self.speed_flag = True
             # scores
             if (len(self.segments)*10) > self.highscore:
                 self.highscore = len(self.segments)*10
