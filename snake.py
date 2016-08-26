@@ -44,7 +44,7 @@ class Application:
         self.init()
 
     def init(self):
-        """ Init the game.""""
+        """ Init the game."""
         self.master.title(self.TITLE)
 
         self.canvas = tkinter.Canvas(self.master)
