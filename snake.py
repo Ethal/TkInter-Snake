@@ -48,13 +48,13 @@ class Application:
         self.canvas.grid(sticky=tkinter.NSEW)
 
         self.start_button = tkinter.Button(self.master, text='Start', command=self.on_start)
-        self.start_button.grid(row = 1, sticky=tkinter.EW)
+        self.start_button.grid(row=1, sticky=tkinter.EW)
         
         # scores
         self.high_scores()
         self.scores.set(('Score: %d High Score: %d' % (len(self.segments)*10, self.highscore)))
         self.score_label = tkinter.Label(self.master, textvariable=self.scores)
-        self.score_label.grid(row = 2, sticky=tkinter.EW)
+        self.score_label.grid(row=2, sticky=tkinter.EW)
 
 
         self.master.bind('<Up>', self.on_up) #w
@@ -111,7 +111,7 @@ class Application:
 
         pos_x = round(random.randint(20, width-20), -1)
         pos_y = round(random.randint(20, height-20), -1)
-        position = (pos_x, pos_y, x+self.SNAKE_SIZE, pos_y+self.SNAKE_SIZE)
+        position = (pos_x, pos_y, pos_x+self.SNAKE_SIZE, pos_y+self.SNAKE_SIZE)
         while position in positions:
             pos_x = round(random.randint(20, width-20), -1)
             pos_y = round(random.randint(20, height-20), -1)
@@ -165,7 +165,7 @@ class Application:
             # scores
             if (len(self.segments)*10) > self.highscore:
                 self.highscore = len(self.segments)*10
-            self.scores.set(('Score: %d High Score: %d'% (len(self.segments)*10,self.highscore)))
+            self.scores.set(('Score: %d High Score: %d'% (len(self.segments)*10, self.highscore)))
             
             self.canvas.after(150, self.tick)
 
@@ -185,38 +185,43 @@ class Application:
             self.canvas.create_text((round(width // 2, -1), round(height // 2, -1)), text='Game Over! Your score is: %d' % score)
 
     def high_scores(self):
+        """ Get and Save the High score to the file score.txt"""
         filename = 'score.txt'
         if os.path.isfile(filename):
-            file = open(filename, 'r')
-            score = file.read()
+            ofile = open(filename, 'r')
+            score = ofile.read()
             if len(score) != 0:
                 self.highscore = int(score)
-            file.close()
+            ofile.close()
     
         if (len(self.segments)*10) >= self.highscore:
-            file = open(filename, 'w')
+            wfile = open(filename, 'w')
             str = ('%d' % (len(self.segments)*10))
-            file.write(str)
-            file.close()
-
+            wfile.write(str)
+            wfile.close()
 
     def on_up(self, event):
+        """ Arrow key up pressed."""
         if self.moved and not self.direction == 's':
             self.direction = 'w'
 
     def on_down(self, event):
+        """ Arrow key down pressed."""
         if self.moved and not self.direction == 'w':
             self.direction = 's'
 
     def on_left(self, event):
+        """ Arrow key left pressed."""
         if self.moved and not self.direction == 'd':
             self.direction = 'a'
 
     def on_right(self, event):
+        """ Arrow key right pressed."""
         if self.moved and not self.direction == 'a':
             self.direction = 'd'
 
     def on_pause(self, event):
+        """ P (Pause) key pressed."""
         if self.moved:
             self.moved = False
         else:
