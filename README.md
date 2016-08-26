@@ -8,4 +8,4 @@ A really simple snake clone using Python 3 / 2.7 and TkInter. Controls are arrow
 Screenshots
 -----------
 
-![](http://g.recordit.co/ZuJQlmso4T.gif)
+![](http://g.recordit.co/BmP6qEE2TO.gif)
