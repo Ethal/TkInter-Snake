@@ -15,6 +15,8 @@ FOOD_COLOR = ('yellow', 'yellow')
 
 class Application:
     """ Application. """
+    #pylint: disable=too-many-instance-attributes
+
     TITLE = 'Snake'
     SIZE = 400, 400
     BORDER = 10
