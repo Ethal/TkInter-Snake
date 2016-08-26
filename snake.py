@@ -22,8 +22,8 @@ class Application:
     BORDER = 10
     MOVE = 10
     SNAKE_SIZE = 7
-    SPEED_STEP = 5
-    SPEED_DEC = 1
+    SPEED_STEP = 3
+    SPEED_DEC = 5
 
 
     # initialize parameters of this class && parameters of Tk() class
@@ -68,7 +68,7 @@ class Application:
         self.score_label = tkinter.Label(self.master, textvariable=self.scores)
         self.score_label.grid(row=2, sticky=tkinter.EW)
 
-        self.infos.set('Speed: %d' % (self.speed))
+        self.infos.set('Speed: %d' % (100 - ((self.speed-50)*100/100)))
         self.infos_label = tkinter.Label(self.master, textvariable=self.infos)
         self.infos_label.grid(row=3, sticky=tkinter.EW)
 
@@ -195,7 +195,7 @@ class Application:
             if (len(self.segments)*10) > self.highscore:
                 self.highscore = len(self.segments)*10
 
-            self.infos.set(('Speed: %d'% (self.speed)))
+            self.infos.set('Speed: %d' % (100 - ((self.speed-50)*100/100)))
             self.scores.set(('Score: %d High Score: %d'% (len(self.segments)*10, self.highscore)))
             self.canvas.after(self.speed, self.tick)
 
