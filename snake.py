@@ -37,7 +37,7 @@ class Application(object):
         self.segments = []
         self.segment_positions = []
         self.food = None
-        self.food_position = None
+        self.food_position = []
         self.direction = None
         self.moved = True
         # scores
@@ -48,9 +48,14 @@ class Application(object):
         self.speed = 150
         self.speed_flag = False
 
+        #essai ajout block
+        self.test = 1
+
+
         self.running = False
         # below : initialize the specific parameter of Tk() class
         self.init()
+
 
     def init(self):
         """ Init the game."""
@@ -98,6 +103,8 @@ class Application(object):
         """ reset the game """
         self.segments = []
         self.segment_positions = []
+        self.food = []
+        self.food_position = []
         self.canvas.delete(tkinter.ALL)
 
     def start(self):
@@ -141,7 +148,7 @@ class Application(object):
 
         color = random.choice(FOOD_COLOR)
         self.food = self.canvas.create_rectangle(tuple(position), fill=color)
-        self.food_position = position
+        self.food_position.append(position)
 
     def tick(self):
         """Draw the snake."""
@@ -169,10 +176,19 @@ class Application(object):
             self.game_over()
             return
 
-        if head_position == self.food_position:
+        #if head_position == self.food_position
+        if head_position in self.food_position:
+            print self.food_position
             self.canvas.coords(self.food, previous_head_position)
             self.segments.append(self.food)
             self.segment_positions.append(previous_head_position)
+            self.food_position.remove(head_position)
+            self.canvas.delete(head_position)
+            self.spawn_food()
+
+        self.test = self.test + 1
+        if self.test == 50:
+            self.test = 0
             self.spawn_food()
 
         if self.segments:
