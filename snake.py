@@ -10,7 +10,7 @@ except ImportError:
 
 import os.path
 
-FOOD_COLOR = ('yellow', 'yellow')
+FOOD_COLOR = ('yellow', 'red','cyan','orange','blue')
 
 
 class Application(object):
